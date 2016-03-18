@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="JsML.js"></script>
+    <script>
+      JsML.populateGlobal();
+
+      console.log(
+        HTML("div", {class: "parent"}, [
+          HTML("span", {class: "child"}, "child 1"),
+          HTML("div", {class: "child"}, "child 2")
+        ]).asString()
+      );
+    </script>
+  </head>
+  <body>
+    
+  </body>
+</html>
