@@ -17,42 +17,57 @@ var JsML = (function() {
       var _contents = [];
       var _rType = STRING;
 
+
       this.append = function (html)
       {
-        if ("Array" === _objectType(html)) {
-          _contents.concat(html);
-          return this;
+        if ("Function" === _objectType(html)) {
+          html = html();
         }
 
         _validateInput(html);
+        if ("Array" === _objectType(html)) {
+          _contents = _contents.concat(html);
+          return this;
+        }
+
         _contents.push(html);
 
         return this;
       };
 
+
       this.prepend = function (html)
       {
-        if ("Array" === _objectType(html)) {
-          html.concat(_contents)
-          _contents = html;
-          return this;
+        if ("Function" === _objectType(html)) {
+          html = html();
         }
 
         _validateInput(html);
+        if ("Array" === _objectType(html)) {
+          _contents = html.concat(_contents)
+          return this;
+        }
+
         _contents.unshift(html);
 
         return this;
       };
 
+
       this.html = function (html)
       {
+        if ("Function" === _objectType(html)) {
+          html = html();
+        }
+
+        _validateInput(html);
         if ("Array" !== _objectType(html)) {
-          _validateInput(html);
           html = [html];
         }
 
         _contents = html;
       };
+
 
       this.asString = function ()
       {
@@ -73,14 +88,19 @@ var JsML = (function() {
 
         return html + ' />';
       };
+
+
       this.asJsObject = function ()
       {
         // TODO: implement
       };
+
+
       this.asJQueryObject = function ()
       {
         // TODO: implement
       };
+
 
       var _validateInput = function (inp)
       {
@@ -88,10 +108,11 @@ var JsML = (function() {
           for (var i = 0; i < inp.length; i++) {
             _validateInput(inp[i]);
           }
-        } else if (!~["String", "Number", "Boolean", "HTMLBuilder"].indexOf(_objectType(inp))) {
+        } else if (!~["String", "Number", "Boolean", "Function", "HTMLBuilder"].indexOf(_objectType(inp))) {
           throw new Error("invalid contents type");
         }
       }.bind(this);
+
 
       var _parseForDisplay = function (inp)
       {
@@ -104,7 +125,6 @@ var JsML = (function() {
           return string;
         }
 
-        console.log(_objectType(inp), typeof inp);
         if ("HTMLBuilder" === _objectType(inp)) {
           switch (_rType) {
             case JSOBJECT:
@@ -122,6 +142,7 @@ var JsML = (function() {
         return inp;
       }.bind(this);
 
+
       var _objectType = function (ob)
       {
         var type = Object.prototype.toString.call(ob);
@@ -134,24 +155,21 @@ var JsML = (function() {
         return typeof ob;
       };
 
+
       (function __construct() {
         if ("string" !== typeof tag) {
           throw new Error("`tag` should be of type string");
         }
 
-        if ("[object Array]" === _objectType(contents)) {
-          _contents = contents;
-        } else if (contents) {
-          _validateInput(contents);
-          _contents.push(contents);
-        }
+        this.append(contents);
         _tag = tag;
         _props = "object" !== typeof props ? props : {};
-      })();
+      }.bind(this))();
     };
 
     return new HTMLBuilder(tag, props, contents);
   }
+
   return {
     HTML: HTML,
     populateGlobal: function ()

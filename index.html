@@ -10,7 +10,8 @@
       console.log(
         HTML("div", {class: "parent"}, [
           HTML("span", {class: "child"}, "child 1"),
-          HTML("div", {class: "child"}, "child 2")
+          HTML("div", {class: "child"}, "child 2"),
+          HTML("div", {class: "child"}, function() {return "Some content";})
         ]).asString()
       );
     </script>
