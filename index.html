@@ -6,7 +6,7 @@
     <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
     <script src="JsML.js"></script>
     <script>
-      JsML.populateGlobal();
+      JsML.populateGlobal(true);
 
       console.log(
         HTML("div", {class: "parent"}, [
@@ -16,6 +16,10 @@
           HTML("img", {src: "#"})
         ]).asJQueryObject()
       );
+
+      console.log(JsML.A({"href": "#"}, "Click Me").asString());
+      console.log(JsML.IMG({src: "#"}).asString());
+      console.log(HTML, A, SPAN);
     </script>
   </head>
   <body>

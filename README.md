@@ -75,7 +75,7 @@ var builder = HTML("div" {class: "parent"}, [
     HTML("li", {}, "Item 1"),
     HTML("li", {}, "Item 2")
   ])
-])
+]);
 ```
 
 ###### Update the builder after instantiation
@@ -104,7 +104,121 @@ var pure = builder.asJsObject();
 var jq   = builder.asJQueryObject();
 ```
 
+###### Tag aliases 
+```
+/*
+   Many tags have out of the box alias functions to speed up the process of createing elements and make the 
+   code cleaner amd more readable.
+   
+   These aliases can be used from the JsML object or bushed into the global namespace with JsML.populateGlobal(true);
+   *Note:* populating the global namespace with all element aliases could case function name conflicts
+*/
+JsML.populateGlobal(true);
+var builder = DIV({class: "parent"}, [
+  DIV({class: "child"}, "Child 1"),
+  '<div class="child">Child 2</div>',
+  UL({class: "child"}, [
+    LI({}, "Item 1"),
+    LI({}, "Item 2")
+  ])
+]);
 
+Below is a complete list of aliasd tags (i may go through and refine this list when i have time)
+*NOTE:* the html tag is not aliased as that is used as the base function for all tag builders
+  - A
+  - ABBR
+  - ADDRESS
+  - AREA
+  - ARTICLE
+  - ASIDE
+  - AUDIO
+  - B
+  - BASE
+  - BDO
+  - BLOCKQUOTE
+  - BODY
+  - BR
+  - BUTTON
+  - CANVAS
+  - CAPTION
+  - CITE
+  - CODE
+  - COL
+  - COLGROUP
+  - DATALIST
+  - DD
+  - DEL
+  - DETAILS
+  - DFN
+  - DIALOG
+  - DIV
+  - DL
+  - DT
+  - EM
+  - EMBED
+  - FIELDSET
+  - FIGCAPTION
+  - FIGURE
+  - FOOTER
+  - FORM
+  - HEAD
+  - HEADER
+  - H1
+  - HR
+  - I
+  - IFRAME
+  - IMG
+  - INS
+  - INPUT
+  - KBD
+  - KEYGEN
+  - LABEL
+  - LEGEND
+  - LI
+  - LINK
+  - MAP
+  - MARK
+  - MENU
+  - MENUITEM
+  - META
+  - METER
+  - NAV
+  - OBJECT
+  - OL
+  - OPTGROUP
+  - OPTION
+  - OUTPUT
+  - P
+  - PARAM
+  - PRE
+  - PROGRESS
+  - Q
+  - S
+  - SAMP
+  - SCRIPT
+  - SECTION
+  - SELECT
+  - SMALL
+  - SOURCE
+  - SPAN
+  - STRONG
+  - STYLE
+  - SUB
+  - SUMMARY
+  - SUP
+  - TABLE
+  - TD
+  - TH
+  - TR
+  - TEXTAREA
+  - TIME
+  - TITLE
+  - TRACK
+  - U
+  - UL
+  - VAR
+  - VIDEO
+```
 
 ## Feedback
 please feel free to suggest improvements or point out where im being stupid in the issues section
