@@ -7,16 +7,9 @@ var JsML = (function() {
   {
     function HTMLBuilder(tag, props, contents)
     {
-      // const
-      var STRING = 0;
-      var JQUERY = 1;
-      var JSOBJECT = 2;
-
       var _tag = "";
       var _props = {};
       var _contents = [];
-      var _rType = STRING;
-
 
       this.append = function (html)
       {
@@ -35,7 +28,6 @@ var JsML = (function() {
         return this;
       };
 
-
       this.prepend = function (html)
       {
         if ("Function" === _objectType(html)) {
@@ -53,7 +45,6 @@ var JsML = (function() {
         return this;
       };
 
-
       this.html = function (html)
       {
         if ("Function" === _objectType(html)) {
@@ -66,6 +57,18 @@ var JsML = (function() {
         }
 
         _contents = html;
+      };
+
+      this.prop = function (key, value)
+      {
+        if ("string" !== typeof key) {
+          throw new Error("Invalid key type");
+        }
+        if (~["string", "number", "boolean"].indexof(typeof value) && null !== value) {
+          throw new Error("Invalid value type");
+        }
+
+        _props[key] = value;
       };
 
 
@@ -82,8 +85,7 @@ var JsML = (function() {
         }
 
         if (_contents.length) {
-          _rType = STRING;
-          return html + '>' + _parseForDisplay(_contents) + '</' + _tag + '>';
+          return html + '>' + _parseContents(_contents) + '</' + _tag + '>';
         }
 
         return html + ' />';
@@ -92,13 +94,19 @@ var JsML = (function() {
 
       this.asJsObject = function ()
       {
-        // TODO: implement
+        var tmp = document.createElement("div");
+        tmp.innerHTML = this.asString();
+
+        return tmp.children[0];
       };
 
 
       this.asJQueryObject = function ()
       {
-        // TODO: implement
+        if (!window.jQuery) {
+          throw new Error("jQuery not found");
+        }
+        return window.jQuery(this.asString());
       };
 
 
@@ -114,24 +122,18 @@ var JsML = (function() {
       }.bind(this);
 
 
-      var _parseForDisplay = function (inp)
+      var _parseContents = function (inp)
       {
         if ("Array" === _objectType(inp)) {
           var string = "";
           for (var i = 0; i < inp.length; i++) {
-            string += _parseForDisplay(inp[i]);
+            string += _parseContents(inp[i]);
           }
 
           return string;
         }
 
         if ("HTMLBuilder" === _objectType(inp)) {
-          switch (_rType) {
-            case JSOBJECT:
-              return inp.asJsObject();
-            case JQUERY:
-              return inp.asJQueryObject();
-          }
           return inp.asString();
         }
 
@@ -161,9 +163,11 @@ var JsML = (function() {
           throw new Error("`tag` should be of type string");
         }
 
-        this.append(contents);
+        if (null !== contents && undefined !== contents) {
+          this.append(contents);
+        }
         _tag = tag;
-        _props = "object" !== typeof props ? props : {};
+        _props = "object" === typeof props ? props : {};
       }.bind(this))();
     };
 

@@ -36,15 +36,15 @@ var builder = JsML.HTML("div", {class: "some-class"}, "");
 ###### Nested element
 ```
 /*
-    The third parameter or 'content' parameter accepts the following types of input
-        - Strings
-        - Numbers 
-        - Booleans
-        - HTMLBuilder instances (returned by the JsML.HTML method)
-        - Arrays of any of the above types
-        - Closures returning any of the above types
-    
-    You can use this to create nested and more complicated HTML strings
+   The third parameter or 'content' parameter accepts the following types of input
+     - Strings
+     - Numbers 
+     - Booleans
+     - HTMLBuilder instances (returned by the JsML.HTML method)
+     - Arrays of any of the above types
+     - Closures returning any of the above types
+   
+   You can use this to create nested and more complicated HTML strings
 */
 var builder = JsML.HTML("div" {class: "parent"}, [
   JsML.HTML("div", {class: "child"}, "Child 1"),
@@ -59,12 +59,12 @@ var builder = JsML.HTML("div" {class: "parent"}, [
 ###### Simplify the code
 ```
 /*
-    To prevent poluting the global namespace HTML is a member of the JsML object but this does make the 
-    code a lot less neat than it could be.
-
-    If you do ot have any conflicting objects you can injext the HTML function into the global namespace.
-    
-    Here is a repeat of the previous example when this is applied
+   To prevent poluting the global namespace HTML is a member of the JsML object but this does make the 
+   code a lot less neat than it could be.
+   
+   If you do ot have any conflicting objects you can injext the HTML function into the global namespace.
+   
+   Here is a repeat of the previous example when this is applied
 */
 
 JsML.populateGlobal();
@@ -81,9 +81,8 @@ var builder = HTML("div" {class: "parent"}, [
 ###### Update the builder after instantiation
 ```
 /*
-    Once the builder is defined you can then update its contents before output
-    
-    Currently this can only be done to the content of the tags themselves
+   Once the builder is defined you can then update its contents before output
+   Currently this can only be done to the content of the tags themselves
 */
 
 var builder = JsML.HTML("div", {}, "");
@@ -95,18 +94,17 @@ builder.html("") // replace content of the element (suppoerts the same types as 
 
 ###### Get the final string
 ```
-/*
-    Once you have build you HTML you then need to be able to return it in a useful type, this is simple
-*/
+// Once you have build you HTML you then need to be able to return it in a useful type, this is simple
 
 var builder = JsML.HTML("div", {class: "example-div"}, "Example Content");
 var htmlString = builder.asString();
+
+// Elements can also be returned as a pure JS object or a jQuery object
+var pure = builder.asJsObject();
+var jq   = builder.asJQueryObject();
 ```
 
-## TODO
- - add/remove element properties
- - return as pure JS object
- - return as jQuery object
+
 
 ## Feedback
 please feel free to suggest improvements or point out where im being stupid in the issues section
